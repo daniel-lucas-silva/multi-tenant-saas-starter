@@ -46,7 +46,7 @@ layers/<nome>/          → Camadas / Sub-aplicações isoladas (ex: admin, auth
    - Mover `components/ui/` → `shared/components/ui/`
    - Mover `lib/utils.ts` → `shared/lib/utils.ts`
    - Mover `hooks/use-mobile.ts` → `shared/hooks/use-mobile.ts`
-   - Atualizar imports internos de `@/lib/utils` e `@/hooks/use-mobile` para `@/shared/lib/utils` e `@/shared/hooks/use-mobile`.
+   - Atualizar imports internos de `@/shared/lib/utils` e `@/shared/hooks/use-mobile` para `@/shared/lib/utils` e `@/shared/hooks/use-mobile`.
 
 2. **Migração de Componentes Exclusivos do App para `app/`**:
    - Mover `components/app/` → `app/components/`

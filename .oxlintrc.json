@@ -10,7 +10,7 @@
     "unicorn/no-useless-fallback-in-spread": "warn",
     "unicorn/no-useless-spread": "warn",
     "no-unused-vars": "warn",
-    "typescript/no-floating-promises": "off"
+    "typescript/no-floating-promises": "off",
   },
   "ignorePatterns": [
     "node_modules/**",

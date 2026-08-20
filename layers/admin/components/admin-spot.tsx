@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useNavigate } from '@tanstack/react-router';
-import { Spot, SpotHeader, SpotContent, SpotFooter } from '@/components/layout/spot';
-import { useBreakpoint } from '@/hooks/use-breakpoint';
-import { Button } from '@/components/ui/button';
+import { Spot, SpotHeader, SpotContent, SpotFooter } from '@/shared/components/layout/spot';
+import { useBreakpoint } from '@/shared/hooks/use-breakpoint';
+import { Button } from '@/shared/components/ui/button';
 
 export function AdminSpot({ spot }: { spot?: 'action' | 'drawer' | 'create-post' }) {
   const { isMobile } = useBreakpoint();

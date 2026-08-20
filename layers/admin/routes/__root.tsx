@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { createRootRoute, Outlet, useSearch } from '@tanstack/react-router';
-import { useBreakpoint } from '@/hooks/use-breakpoint';
-import { AdaptiveLayout } from '@/components/layout/adaptive-layout';
+import { useBreakpoint } from '@/shared/hooks/use-breakpoint';
+import { AdaptiveLayout } from '@/shared/components/layout/adaptive-layout';
 import { AdminDock } from '../components/admin-dock';
 import { AdminSpot } from '../components/admin-spot';
 

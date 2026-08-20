@@ -8,7 +8,7 @@ Para garantir a máxima flexibilidade e reutilização:
 - Todos os componentes em `components/ui/` devem seguir o **padrão de composição moderno (`data-slot`, sub-componentes atômicos e abertos a estilização via Tailwind/CVA)**.
 - Nenhum componente de `components/ui/` deve conter acoplamento com lógica de domínio ou textos fixos hardcoded.
 - Os componentes de layout em `components/app/` (como `AppShell`, `BottomTabs`, `TopNav`, `NavGroup`, `MobileBar`) devem ser genéricos, aceitando itens de navegação, renderers e slots flexíveis via props.
-- Todos os componentes devem estar devidamente exportados no barrel `components/ui/index.ts` e acessíveis via alias `@/components/ui` ou `@/components/app`.
+- Todos os componentes devem estar devidamente exportados no barrel `components/ui/index.ts` e acessíveis via alias `@/shared/components/ui` ou `@/shared/components/app`.
 
 ---
 

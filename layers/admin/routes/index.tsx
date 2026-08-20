@@ -30,12 +30,12 @@ import {
   StageHeader,
   StageContent,
   StageFooter,
-} from '@/components/layout/stage';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+} from '@/shared/components/layout/stage';
+import { Button } from '@/shared/components/ui/button';
+import { Badge } from '@/shared/components/ui/badge';
+import { Card, CardHeader, CardTitle, CardContent } from '@/shared/components/ui/card';
 import { useCollection } from '@/shared/stores';
-import { useBreakpoint } from '@/hooks/use-breakpoint';
+import { useBreakpoint } from '@/shared/hooks/use-breakpoint';
 
 export const Route = createFileRoute('/')({
   component: AdminDashboardPage,

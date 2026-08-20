@@ -16,9 +16,9 @@ import {
   StageHeader,
   StageContent,
   StageFooter,
-} from '@/components/layout/stage';
-import { Button } from '@/components/ui/button';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+} from '@/shared/components/layout/stage';
+import { Button } from '@/shared/components/ui/button';
+import { Card, CardHeader, CardTitle, CardContent } from '@/shared/components/ui/card';
 
 export const Route = createFileRoute('/settings')({
   component: AdminSettingsPage,

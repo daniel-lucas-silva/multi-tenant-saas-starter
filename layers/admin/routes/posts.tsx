@@ -20,18 +20,18 @@ import {
   BoardInput,
   BoardContent,
   BoardFooter,
-} from '@/components/layout/board';
+} from '@/shared/components/layout/board';
 import {
   Stage,
   StageHeader,
   StageContent,
   StageFooter,
-} from '@/components/layout/stage';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+} from '@/shared/components/layout/stage';
+import { Button } from '@/shared/components/ui/button';
+import { Badge } from '@/shared/components/ui/badge';
 import { useCollection } from '@/shared/stores';
-import { useBreakpoint } from '@/hooks/use-breakpoint';
-import { cn } from '@/lib/utils';
+import { useBreakpoint } from '@/shared/hooks/use-breakpoint';
+import { cn } from '@/shared/lib/utils';
 
 export const Route = createFileRoute('/posts')({
   component: AdminPostsPage,

@@ -2,8 +2,8 @@ import * as React from 'react';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { KeyRound, Mail, ArrowRight, ArrowLeft, CheckCircle2 } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
+import { Button } from '@/shared/components/ui/button';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/shared/components/ui/card';
 
 export const Route = createFileRoute('/forgot-password')({
   component: ForgotPasswordPage,

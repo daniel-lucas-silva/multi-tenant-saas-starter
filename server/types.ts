@@ -71,6 +71,16 @@ export interface Config {
   collections: {
     users: User;
     'api-keys': ApiKey;
+    tenants: Tenant;
+    'tenant-members': TenantMember;
+    'tenant-roles': TenantRole;
+    staffs: Staff;
+    'staff-members': StaffMember;
+    invitations: Invitation;
+    subscriptions: Subscription;
+    notifications: Notification;
+    projects: Project;
+    tasks: Task;
     media: Media;
     categories: Category;
     posts: Post;
@@ -95,6 +105,16 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     'api-keys': ApiKeysSelect<false> | ApiKeysSelect<true>;
+    tenants: TenantsSelect<false> | TenantsSelect<true>;
+    'tenant-members': TenantMembersSelect<false> | TenantMembersSelect<true>;
+    'tenant-roles': TenantRolesSelect<false> | TenantRolesSelect<true>;
+    staffs: StaffsSelect<false> | StaffsSelect<true>;
+    'staff-members': StaffMembersSelect<false> | StaffMembersSelect<true>;
+    invitations: InvitationsSelect<false> | InvitationsSelect<true>;
+    subscriptions: SubscriptionsSelect<false> | SubscriptionsSelect<true>;
+    notifications: NotificationsSelect<false> | NotificationsSelect<true>;
+    projects: ProjectsSelect<false> | ProjectsSelect<true>;
+    tasks: TasksSelect<false> | TasksSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
@@ -217,6 +237,11 @@ export interface User {
   id: string;
   name?: string | null;
   roles?: ('admin' | 'editor' | 'viewer')[] | null;
+  avatar?: (string | null) | Media;
+  referralCode?: string | null;
+  referredBy?: string | null;
+  twoFactorEnabled?: boolean | null;
+  status?: ('active' | 'suspended' | 'banned') | null;
   salary?: number | null;
   legacyKey?: string | null;
   updatedAt: string;
@@ -241,20 +266,6 @@ export interface User {
     | null;
   password?: string | null;
   collection: 'users';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "api-keys".
- */
-export interface ApiKey {
-  id: string;
-  label?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  enableAPIKey?: boolean | null;
-  apiKey?: string | null;
-  apiKeyIndex?: string | null;
-  collection: 'api-keys';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -300,6 +311,200 @@ export interface Media {
       filename?: string | null;
     };
   };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "api-keys".
+ */
+export interface ApiKey {
+  id: string;
+  label: string;
+  tenant?: (string | null) | Tenant;
+  prefix?: string | null;
+  scopes?: ('projects:read' | 'projects:write' | 'tasks:read' | 'tasks:write' | 'jobs:run' | 'stats:read')[] | null;
+  /**
+   * Máximo de requisições por janela de tempo
+   */
+  rateLimitMax?: number | null;
+  /**
+   * Janela de rate limit em milissegundos
+   */
+  rateLimitTimeWindow?: number | null;
+  lastUsedAt?: string | null;
+  enabled?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  enableAPIKey?: boolean | null;
+  apiKey?: string | null;
+  apiKeyIndex?: string | null;
+  collection: 'api-keys';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tenants".
+ */
+export interface Tenant {
+  id: string;
+  name: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  logo?: (string | null) | Media;
+  owner: string | User;
+  status?: ('active' | 'suspended' | 'archived') | null;
+  customDomain?: string | null;
+  metadata?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tenant-members".
+ */
+export interface TenantMember {
+  id: string;
+  tenant: string | Tenant;
+  user: string | User;
+  role: 'owner' | 'admin' | 'member' | 'viewer';
+  status?: ('active' | 'invited' | 'suspended') | null;
+  joinedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tenant-roles".
+ */
+export interface TenantRole {
+  id: string;
+  tenant: string | Tenant;
+  name: string;
+  slug: string;
+  permissions?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "staffs".
+ */
+export interface Staff {
+  id: string;
+  tenant: string | Tenant;
+  name: string;
+  description?: string | null;
+  color?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "staff-members".
+ */
+export interface StaffMember {
+  id: string;
+  staff: string | Staff;
+  user: string | User;
+  roleInTeam?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "invitations".
+ */
+export interface Invitation {
+  id: string;
+  tenant: string | Tenant;
+  email: string;
+  role: 'admin' | 'member' | 'viewer';
+  token: string;
+  status?: ('pending' | 'accepted' | 'expired' | 'canceled') | null;
+  expiresAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscriptions".
+ */
+export interface Subscription {
+  id: string;
+  tenant: string | Tenant;
+  plan: 'free' | 'plus' | 'pro' | 'enterprise';
+  status: 'active' | 'trialing' | 'past_due' | 'canceled' | 'unpaid';
+  billingInterval?: ('monthly' | 'yearly') | null;
+  seats?: number | null;
+  stripeCustomerId?: string | null;
+  stripeSubscriptionId?: string | null;
+  currentPeriodEnd?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "notifications".
+ */
+export interface Notification {
+  id: string;
+  user: string | User;
+  tenant?: (string | null) | Tenant;
+  title: string;
+  message: string;
+  type?: ('info' | 'success' | 'warning' | 'error') | null;
+  read?: boolean | null;
+  link?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects".
+ */
+export interface Project {
+  id: string;
+  title: string;
+  description?: string | null;
+  tenant: string | Tenant;
+  status?: ('in_progress' | 'review' | 'completed' | 'backlog') | null;
+  priority?: ('low' | 'medium' | 'high' | 'urgent') | null;
+  assignedTo?: (string | null) | User;
+  dueDate?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tasks".
+ */
+export interface Task {
+  id: string;
+  title: string;
+  project: string | Project;
+  tenant: string | Tenant;
+  status?: ('todo' | 'in_progress' | 'done') | null;
+  assignedTo?: (string | null) | User;
+  dueDate?: string | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -688,6 +893,46 @@ export interface PayloadLockedDocument {
         value: string | ApiKey;
       } | null)
     | ({
+        relationTo: 'tenants';
+        value: string | Tenant;
+      } | null)
+    | ({
+        relationTo: 'tenant-members';
+        value: string | TenantMember;
+      } | null)
+    | ({
+        relationTo: 'tenant-roles';
+        value: string | TenantRole;
+      } | null)
+    | ({
+        relationTo: 'staffs';
+        value: string | Staff;
+      } | null)
+    | ({
+        relationTo: 'staff-members';
+        value: string | StaffMember;
+      } | null)
+    | ({
+        relationTo: 'invitations';
+        value: string | Invitation;
+      } | null)
+    | ({
+        relationTo: 'subscriptions';
+        value: string | Subscription;
+      } | null)
+    | ({
+        relationTo: 'notifications';
+        value: string | Notification;
+      } | null)
+    | ({
+        relationTo: 'projects';
+        value: string | Project;
+      } | null)
+    | ({
+        relationTo: 'tasks';
+        value: string | Task;
+      } | null)
+    | ({
         relationTo: 'media';
         value: string | Media;
       } | null)
@@ -782,6 +1027,11 @@ export interface PayloadMigration {
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
   roles?: T;
+  avatar?: T;
+  referralCode?: T;
+  referredBy?: T;
+  twoFactorEnabled?: T;
+  status?: T;
   salary?: T;
   legacyKey?: T;
   updatedAt?: T;
@@ -811,11 +1061,156 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface ApiKeysSelect<T extends boolean = true> {
   label?: T;
+  tenant?: T;
+  prefix?: T;
+  scopes?: T;
+  rateLimitMax?: T;
+  rateLimitTimeWindow?: T;
+  lastUsedAt?: T;
+  enabled?: T;
   updatedAt?: T;
   createdAt?: T;
   enableAPIKey?: T;
   apiKey?: T;
   apiKeyIndex?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tenants_select".
+ */
+export interface TenantsSelect<T extends boolean = true> {
+  name?: T;
+  generateSlug?: T;
+  slug?: T;
+  logo?: T;
+  owner?: T;
+  status?: T;
+  customDomain?: T;
+  metadata?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tenant-members_select".
+ */
+export interface TenantMembersSelect<T extends boolean = true> {
+  tenant?: T;
+  user?: T;
+  role?: T;
+  status?: T;
+  joinedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tenant-roles_select".
+ */
+export interface TenantRolesSelect<T extends boolean = true> {
+  tenant?: T;
+  name?: T;
+  slug?: T;
+  permissions?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "staffs_select".
+ */
+export interface StaffsSelect<T extends boolean = true> {
+  tenant?: T;
+  name?: T;
+  description?: T;
+  color?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "staff-members_select".
+ */
+export interface StaffMembersSelect<T extends boolean = true> {
+  staff?: T;
+  user?: T;
+  roleInTeam?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "invitations_select".
+ */
+export interface InvitationsSelect<T extends boolean = true> {
+  tenant?: T;
+  email?: T;
+  role?: T;
+  token?: T;
+  status?: T;
+  expiresAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscriptions_select".
+ */
+export interface SubscriptionsSelect<T extends boolean = true> {
+  tenant?: T;
+  plan?: T;
+  status?: T;
+  billingInterval?: T;
+  seats?: T;
+  stripeCustomerId?: T;
+  stripeSubscriptionId?: T;
+  currentPeriodEnd?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "notifications_select".
+ */
+export interface NotificationsSelect<T extends boolean = true> {
+  user?: T;
+  tenant?: T;
+  title?: T;
+  message?: T;
+  type?: T;
+  read?: T;
+  link?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects_select".
+ */
+export interface ProjectsSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  tenant?: T;
+  status?: T;
+  priority?: T;
+  assignedTo?: T;
+  dueDate?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tasks_select".
+ */
+export interface TasksSelect<T extends boolean = true> {
+  title?: T;
+  project?: T;
+  tenant?: T;
+  status?: T;
+  assignedTo?: T;
+  dueDate?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

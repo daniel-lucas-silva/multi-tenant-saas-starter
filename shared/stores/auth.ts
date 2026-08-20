@@ -106,5 +106,5 @@ export function useAuth<S extends AuthSlug = 'users'>(slug?: S) {
     }
   }, [slug]);
 
-  return { ...state, ...methods };
+  return { ...state, ...methods, isAuthenticated: !!state.user };
 }

@@ -14,10 +14,10 @@ import {
   DockHeader,
   DockContent,
   DockFooter,
-} from '@/components/layout/dock';
+} from '@/shared/components/layout/dock';
 import { ADMIN_NAV } from './nav';
 import { useAuth } from '@/shared/stores';
-import { cn } from '@/lib/utils';
+import { cn } from '@/shared/lib/utils';
 
 export function AdminDock({
   isMobile,
